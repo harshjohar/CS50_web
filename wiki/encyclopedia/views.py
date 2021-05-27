@@ -5,28 +5,62 @@ from markdown2 import Markdown
 from . import util
 from django import forms
 from random import randint
-
+markdowner = Markdown()
 class AddForm(forms.Form):
     title = forms.CharField(label="Title", max_length=100)
     content = forms.CharField(widget=forms.Textarea, label="Content(md supported)", max_length=2500)
 
+class Search(forms.Form):
+    item = forms.CharField(widget=forms.TextInput(attrs={'class' : 'myfieldclass', 'placeholder': 'Search'}))
 
 def index(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
+    entries = util.list_entries()
+    searched = []
+    if request.method == "POST":
+        form = Search(request.POST)
+        if form.is_valid():
+            item = form.cleaned_data["item"]
+            for i in entries:
+                if item in entries:
+                    page = util.get_entry(item)
+                    page_converted = markdowner.convert(page)
+
+                    context = {
+                        'page': page_converted,
+                        'title': item, 
+                        'form': Search()
+                    }
+                    return render(request, 'encyclopedia/show.html', context)
+                if item.lower() in i.lower():
+                    searched.append(i)
+                    context = {
+                        'searched': searched,
+                        'form': Search()
+                    }
+
+            return render(request, 'encyclopedia/search.html', context)
+        else:
+            return render(request, 'encyclopedia/index.html', {'form': form})
+    else:
+        return render(request, "encyclopedia/index.html", {
+            "entries": util.list_entries(),
+            "form": Search()
+        })
 
 def show(request, title):
     # print(title)
     if title in util.list_entries():
-        markdowner = Markdown()
+        page = util.get_entry(title)
+        converted = markdowner.convert(page)
         return render(request, "encyclopedia/show.html", {
-            "entry": markdowner.convert(util.get_entry(title)), 
-            "title": title
+            "entry": converted, 
+            "title": title,
+            'form': Search()
         })
     else:
         return render(request, "encyclopedia/notFound.html", {
-            "title": title
+            "title": title,
+            'form': Search()
         })
 
 def add(request):
@@ -39,12 +73,14 @@ def add(request):
             return redirect("../")
         else:
             return render(request, "encylclopedia/add.html", {
-                "form": form
+                "add": form,
+                'form': Search()
             })
     else:
         form=AddForm()
     return render(request, "encyclopedia/add.html", {
-        "form": AddForm()
+        "add": AddForm(),
+        'form': Search()
     })
 
 def random(request):
@@ -67,16 +103,17 @@ def edit(request, title):
             return redirect("../")
         else:
             return render(request, "encylclopedia/edit.html", {
-                "form": form
+                "edit": form,
+                'form': Search()
             })
     else:
         initial_dict = {
             "title": title,
-            "content": content
+            "content": content,
+            'form': Search()
         }
         form=AddForm(initial=initial_dict)
     return render(request, "encyclopedia/edit.html", {
-        'form': form
+        'edit': form,
+        'form': Search()
     })
-
-

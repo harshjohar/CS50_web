@@ -1,10 +1,10 @@
 > entry page <
 > index <
-> search
+> search <
 > new page <
 > not found page <
 > edit page <
 > random page <
-> html rendering
+> html rendering <
 
->> css
+>> css <<

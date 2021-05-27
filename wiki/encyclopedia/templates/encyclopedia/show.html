@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %} 
-    <!-- <h1>{{ title }}</h1> -->
-    {{ entry }}    
+    <!-- <h1>{{ title|safe }}</h1> -->
+    {{ entry|safe }}    
     <div>
-        <a href="edit/{{title}}"><button class="btn">edit</button></a>
+        <a href="edit/{{title}}"><button class="btn btn-dark">edit</button></a>
     </div>
 {% endblock %}

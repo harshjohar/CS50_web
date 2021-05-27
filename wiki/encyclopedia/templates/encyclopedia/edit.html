@@ -6,9 +6,11 @@
 
 {% block body %} 
     <!-- <h1>{{ title }}</h1> -->
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn" type="submit">Submit</button>
-    </form>
+    <div class="form">
+        <form method="POST">
+            {% csrf_token %}
+            {{ edit.as_p }}
+            <button class="btn btn-dark" type="submit">Submit</button>
+        </form>
+    </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 body {
     margin: 0;
     background-color: white;
+    color: black;
 }
 
 code {
@@ -19,6 +20,7 @@ textarea {
 
 .main {
     padding: 10px;
+    /* background-color: aquamarine; */
 }
 
 .search {
@@ -31,8 +33,49 @@ textarea {
     background-color: #f0f0f0;
     height: 100vh;
     padding: 20px;
+    /* margin-left: 10px; */
+    padding-left: 40px;
 }
+
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+.main a {
+    color: black;
+}
+
+.row a {
+    color: black;
+}
+
+.form p textarea {
+    height: 100px;
+}
+
+.form p {
+    display: flex;
+    align-items:center ;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 100vw; */
+}
+
+.form form {
+    width: 100%;
+    /* justify-content: center; */
+    align-items: center;
+    align-content: center;
+}
+.form .btn {
+    display: block;
+    margin: auto;
 }
