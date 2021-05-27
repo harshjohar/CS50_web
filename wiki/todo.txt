@@ -1,0 +1,10 @@
+> entry page <
+> index <
+> search
+> new page <
+> not found page <
+> edit page <
+> random page <
+> html rendering
+
+>> css
